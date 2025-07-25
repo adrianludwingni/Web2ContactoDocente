@@ -1,0 +1,13 @@
+
+.texto-grande h5 {
+    font-size: 40px; 
+}
+
+.fondo-cambiado h5 {
+    color: greenyellow; 
+}
+
+.card-color {
+    background-color: black !important; 
+    border-color: yellow !important;
+}
