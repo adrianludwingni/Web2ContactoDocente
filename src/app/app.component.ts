@@ -6,6 +6,7 @@ import { CardsComponent } from "./components/cards/cards.component";
 import { CarruselComponent } from "./components/carrusel/carrusel.component";
 import { InformacionComponent } from "./components/informacion/informacion.component";
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
