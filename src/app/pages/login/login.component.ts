@@ -6,8 +6,8 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  standalone: true, 
-  imports: [ReactiveFormsModule, CommonModule], 
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -27,7 +27,7 @@ export class LoginComponent {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.formLogin.invalid) return;
 
     this.cargando = true;
@@ -35,17 +35,11 @@ export class LoginComponent {
 
     const { email, password } = this.formLogin.value;
 
-    this.authService.login(email, password).subscribe({
-      next: (users) => {
-        this.cargando = false;
-        if (!users || users.length === 0) {
-          this.errorLogin = true;
-        } else {
-          this.router.navigate(['/productos']);
-        }
-      },
-      error: () => {
-        this.cargando = false;
+    this.authService.login(email, password).subscribe((success: boolean) => {
+      this.cargando = false;
+      if (success) {
+        this.router.navigate(['/productos']);
+      } else {
         this.errorLogin = true;
       }
     });

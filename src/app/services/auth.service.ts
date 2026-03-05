@@ -1,38 +1,42 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/usuarios';
+  // 👇 Ruta corregida
+  private apiUrl = 'assets/data/usuarios.json';
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  register(user: {email: string, password: string}) {
-    return this.http.post(this.apiUrl, user).pipe(
-      tap(() => {
-        this.router.navigate(['/login']);
+  login(email: string, password: string) {
+    return this.http.get<any>(this.apiUrl).pipe(
+      map(data => {
+        const users = data.usuarios || [];
+        const found = users.find(
+          (u: any) => u.email === email && u.password === password
+        );
+        if (found) {
+          localStorage.setItem('auth_token', 'authenticated');
+          return true;
+        }
+        return false;
       }),
       catchError(error => {
-        console.error('Error en registro:', error);
-        return of(null);
+        console.error('Error en login:', error);
+        return of(false);
       })
     );
   }
 
-  login(email: string, password: string) {
-    return this.http.get<any[]>(`${this.apiUrl}?email=${email}&password=${password}`).pipe(
-      tap(users => {
-        if (users && users.length > 0) {
-          localStorage.setItem('auth_token', 'authenticated');
-          this.router.navigate(['/productos']);
-        }
-      })
-    );
+  register(user: { email: string; password: string }) {
+    // ⚠️ Recuerda: en assets no se puede guardar, esto es solo ilustrativo
+    console.warn('El registro no funciona con assets, necesitas un backend real.');
+    return of(null);
   }
 
   isAuthenticated(): boolean {

@@ -7,15 +7,15 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegistroComponent } from './pages/registro/registro.component';
 import { AuthGuard } from './guards/auth.guard';
 
-
+// 👇 IMPORTANTE: exportar la constante `routes`
 export const routes: Routes = [
-    { path: 'home', component: HomeComponent },
-    { path: 'nosotros', component: NosotrosComponent },
-    { path: 'productos', component: ProductosComponent, canActivate: [AuthGuard] },
-    { path: 'login', component: LoginComponent },
-    { path: 'registro', component: RegistroComponent },
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: '**', component: ErrorComponent }
+  { path: 'home', component: HomeComponent },
+  { path: 'nosotros', component: NosotrosComponent },
+  { path: 'productos', component: ProductosComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'registro', component: RegistroComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', component: ErrorComponent }
 ];
 
 
